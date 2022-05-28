@@ -1,4 +1,5 @@
 <?php
+include '../lib/personaldata.php';
 
 class QueryPersonalData extends connect
 {
@@ -14,6 +15,9 @@ class QueryPersonalData extends connect
         $this->personaldata = $personaldata;
     }
 
+    /**
+     * 新規作成 or 画像修正
+     */
     public function save()
     {
         $rcvId = $this->personaldata->getId();
@@ -55,17 +59,83 @@ class QueryPersonalData extends connect
             $stmt->bindParam(':picdata0', $rcvPicData0, PDO::PARAM_STR);
             $stmt->bindParam(':picdata1', $rcvPicData1, PDO::PARAM_STR);
             $stmt->bindParam(':picdata2', $rcvPicData2, PDO::PARAM_STR);
-            // print_r("rcvparameters ".$rcvId.'  '.$rcvName.'   '.$rcvAge.'  '. $rcvCategory.'  '.$rcvBirthday.'  '.$rcvBirthPlace.'  '.$rcvBloodType.'  '.$rcvHeight.'  '.$rcvNotices.'  '.$rcvPicData0.'  '.$rcvPicData1.'  '.$rcvPicData2);
-            // $stmt->debugDumpParams();
-            // die();
+
             $stmt->execute();
             
         }
         catch( Exception $ex )
         {
-            print_r("debug4");
-            die();
             return "DB:Error";
         }
     }
+
+    /**
+     * 全データを取得する
+     */
+    public function getAllData()
+    {
+
+        try
+        {
+            $stmt = $this->dbh->prepare("SELECT  * FROM personaldata");
+            $stmt->execute();
+            $data = $this->setAllData($stmt->fetchAll(PDO::FETCH_ASSOC));
+    
+        }
+        catch(Exception $ex)
+        {
+            return "DB:Error";
+        }
+
+        return $data;
+
+    }
+
+    /**
+     * 指定したIDのデータを取得する
+     */
+    public function getData($id)
+    {
+
+        try
+        {
+
+        }
+        catch(Exception $ex)
+        {
+            return "DB:Error";
+        }
+
+    }
+
+    /**
+     * 取得した全データをデータクラス(PersonData)の配列にする
+     */
+    public function setAllData($resutls)
+    {
+        $tmp = array();
+        foreach ($resutls as $result) 
+        {
+            $pd = new PersonalData();
+            $pd->setId($result["id"]);
+            $pd->setName($result["womanname"]);
+            $pd->setAge($result["age"]);
+            $pd->setCategory($result["category"]);
+            $pd->setBirthday($result["birthday"]);
+            $pd->setBirthplace($result["birthplace"]);
+            $pd->setHeight($result["height"]);
+            $pd->setNotices($result["notices"]);
+            $pd->setPicdata0($result["picdata0"]);
+            $pd->setPicdata1($result["picdata1"]);
+            $pd->setPicdata2($result["picdata2"]);
+
+            $tmp[] = $pd;
+
+        //     $tmp[]=array("id"=>$result["id"],"womanname"=>$result["womanname"],"age"=>$result["age"],"category"=>$result["category"],"birthday"=>$result["birthday"],"bloodtype"=>$result["bloodtype"],"height"=>$result["height"],"notices"=>$result["notices"]
+        // ,"picdata0"=>$result["picdata0"],"picdata1"=>$result["picdata1"],"picdata2"=>$result["picdata2"]);
+        }
+        return  $tmp;
+    }
+
+
 }

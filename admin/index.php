@@ -1,5 +1,9 @@
 <?php
+include '../lib/connect.php';
+include '../lib/queryPersonalData.php';
 
+$qpd=new QueryPersonalData();
+$results = $qpd->getAllData();
 
 ?>
 <!doctype html>
@@ -42,87 +46,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th>1</th>
-                                    <td><a href="detail.php">宇垣美里</a></td>
-                                    <td>30</td>
-                                    <td>フリー</td>
-                                    <td><a href="edit.php" class="btn btn-primary btn-xs">編集</a></td>
-                                    <td><a href="" class="btn btn-primary btn-xs">削除</a></td>
-                                </tr>
-
-                                <tr>
-                                    <th>2</th>
-                                    <td><a href="detail.phpl">相場詩織</a></td>
-                                    <td>30</td>
-                                    <td>フリー</td>
-                                    <td><a href="edit.php" class="btn btn-primary btn-xs">編集</a></td>
-                                    <td><a href="#" class="btn btn-primary btn-xs">削除</a></td>
-                                </tr>
-                                <tr>
-                                    <th>3</th>
-                                    <td><a href="detail.php">良原安美</a></td>
-                                    <td>26</td>
-                                    <td>TBS</td>
-                                    <td><a href="edit.php" class="btn btn-primary btn-xs">編集</a></td>
-                                    <td><a href="#" class="btn btn-primary btn-xs">削除</a></td>
-                                </tr>
-                                <tr>
-                                    <th>4</th>
-                                    <td><a href="detail.php">馬場典子</a></td>
-                                    <td>48</td>
-                                    <td>フリー</td>
-                                    <td><a href="edit.php" class="btn btn-primary btn-xs">編集</a></td>
-                                    <td><a href="#" class="btn btn-primary btn-xs">削除</a></td>
-                                </tr>
-                                <tr>
-                                    <th>5</th>
-                                    <td><a href="detail.php">加藤綾子</a></td>
-                                    <td>36</td>
-                                    <td>フリー</td>
-                                    <td><a href="edit.php" class="btn btn-primary btn-xs">編集</a></td>
-                                    <td><a href="#" class="btn btn-primary btn-xs">削除</a></td>
-                                </tr>
-                                <tr>
-                                    <th>6</th>
-                                    <td><a href="detail.php">堤礼実</a></td>
-                                    <td>28</td>
-                                    <td>フジテレビ</td>
-                                    <td><a href="edit.php" class="btn btn-primary btn-xs">編集</a></td>
-                                    <td><a href="#" class="btn btn-primary btn-xs">削除</a></td>
-                                </tr>
-                                <tr>
-                                    <th>7</th>
-                                    <td><a href="detail.php">高見侑里</a></td>
-                                    <td>33</td>
-                                    <td>フリー</td>
-                                    <td><a href="edit.php" class="btn btn-primary btn-xs">編集</a></td>
-                                    <td><a href="#" class="btn btn-primary btn-xs">削除</a></td>
-                                </tr>
-                                <tr>
-                                    <th>8</th>
-                                    <td><a href="detail.php">牧野結美</a></td>
-                                    <td>32</td>
-                                    <td>フリー</td>
-                                    <td><a href="edit.php" class="btn btn-primary btn-xs">編集</a></td>
-                                    <td><a href="#" class="btn btn-primary btn-xs">削除</a></td>
-                                </tr>
-                                <tr>
-                                    <th>9</th>
-                                    <td><a href="detail.php">後呂有紗</a></td>
-                                    <td>28</td>
-                                    <td>日テレ</td>
-                                    <td><a href="edit.php" class="btn btn-primary btn-xs">編集</a></td>
-                                    <td><a href="#" class="btn btn-primary btn-xs">削除</a></td>
-                                </tr>
-                                <tr>
-                                    <th>10</th>
-                                    <td><a href="detail.php">高田秋</a></td>
-                                    <td>30</td>
-                                    <td>フリー</td>
-                                    <td><a href="edit.php" class="btn btn-primary btn-xs">編集</a></td>
-                                    <td><a href="#" class="btn btn-primary btn-xs">削除</a></td>
-                                </tr>
+                                <?php if(!empty($results))
+                                { 
+                                    foreach($results as $key=>$result)
+                                    {
+                                        print '<tr>';
+                                        print '<th>'.$key.'</th>';
+                                        print '<td><a href="detail.php">'.$result->getName().'</a></td>';
+                                        print '<td>'.$result->getAge().'</td>';
+                                        print '<td>'.$result->getCategory().'</td>';
+                                        print '<td><a href="edit.php"'.aaa.'class="btn btn-primary btn-xs">編集</a></td>';
+                                        print '<td><a href="" class="btn btn-primary btn-xs">削除</a></td>';
+                                        print '</tr>';
+                                    }
+                                } ?>
                             </tbody>
                         </table>
                     </div>

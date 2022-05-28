@@ -1,6 +1,6 @@
 <?php
 include '../lib/connect.php';
-include '../lib/personaldata.php';
+// include '../lib/personaldata.php';
 include '../lib/queryPersonalData.php';
 
 header('Expires: Tue, 1 Jan 2019 00:00:00 GMT');
@@ -25,28 +25,11 @@ if(!empty($_POST['womanname']))
     $rcvPicData2 = "nodata.png";
 
 
-    //入力画面から取得した画像ファイル(複数有)
-    // if (!empty($_FILES['picdata']['name'])) {//ファイルが選択されていれば$imageにファイル名を代入
-    //     //$_FILES['image']['tmp_name'] /tm/xxxx てな感じのファイル名 現在ファイル本体がある仮のパスがあるっぽい
-    //     $tgtfilename =$rcvName;
-    //     $tgtfilename .= '.' . substr(strrchr($_FILES['picdata']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
-    //     // $file = "upload/$tgtfilename";
-
-    //     move_uploaded_file($_FILES['picdata']['tmp_name'], 'uploads/' . $tgtfilename);//imagesディレクトリにファイル保存
-    //     // if (exif_imagetype($file)) {//画像ファイルかのチェック
-    //     //     // $message = '画像をアップロードしました';
-    //     //     // $stmt->execute();
-    //     // } else {
-    //     //     // $message = '画像ファイルではありません';
-    //     // }
-    // }
     if(isset($_FILES["picdata"]))
     {
         $tgtfilename = $rcvName;
         
-
         // アップロードされたファイル件を処理
-        // for($i = 0; $i < count($_FILES["picdata"]["name"]); $i++ )
         foreach ($_FILES["picdata"]["tmp_name"] as $no => $tmp_name) 
         {
             // アップロードされたファイルか検査
@@ -58,8 +41,7 @@ if(!empty($_POST['womanname']))
                 $tgtfilename .= $no;
                 $tgtfilename .= '.jpg';
                 move_uploaded_file($_FILES["picdata"]["tmp_name"][$no], "uploads/" . $tgtfilename);
-                
-                // die();
+
                 if($no==0)
                 {
                     $rcvPicData0 = $tgtfilename;
@@ -282,7 +264,7 @@ if(!empty($_POST['womanname']))
                     <div class="col-sm-9">
                         <div class="custom-file">
                             <!-- <input type="file" class="custom-file-input" id="addImage" lang="ja" name="picdata[]" multiple="multiple"> -->
-                            <input type="file" class="custom-file-input" id="addImage" lang="ja" name="picdata" multiple="multiple">
+                            <input type="file" class="custom-file-input" id="addImage" lang="ja" name="picdata[]" multiple="multiple">
                             <label class="custom-file-label" for="addImage">ファイル選択...</label>
                         </div>
                     </div>
