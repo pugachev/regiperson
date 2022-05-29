@@ -1,6 +1,5 @@
 <?php
 include '../lib/connect.php';
-// include '../lib/personaldata.php';
 include '../lib/queryPersonalData.php';
 
 header('Expires: Tue, 1 Jan 2019 00:00:00 GMT');
@@ -9,6 +8,7 @@ header('Cache-Control:no-cache,no-store,must-revalidate,max-age=0');
 header('Cache-Control:pre-check=0,post-check=0',false);
 header('Pragma:no-cache');
 
+$ret=false;
 if(!empty($_POST['womanname']))
 {
     //入力画面から取得した項目
@@ -24,55 +24,59 @@ if(!empty($_POST['womanname']))
     $rcvPicData1 = "nodata.png";
     $rcvPicData2 = "nodata.png";
 
-
-    if(isset($_FILES["picdata"]))
+    $search = new QueryPersonalData();
+    $ret = $search->getDatumByName($_POST['womanname']);
+    //戻り値:trueの場合は既に名前が存在するのでエラー処理する
+    if(!$ret)
     {
-        $tgtfilename = $rcvName;
-        
-        // アップロードされたファイル件を処理
-        foreach ($_FILES["picdata"]["tmp_name"] as $no => $tmp_name) 
+        if(isset($_FILES["picdata"]))
         {
-            // アップロードされたファイルか検査
-            if(is_uploaded_file($_FILES["picdata"]["tmp_name"][$no]))
-            {
-                $tgtfilename='';
-                $tgtfilename .= $rcvName;
-                $tgtfilename .= '_';
-                $tgtfilename .= $no;
-                $tgtfilename .= '.jpg';
-                move_uploaded_file($_FILES["picdata"]["tmp_name"][$no], "uploads/" . $tgtfilename);
-
-                if($no==0)
-                {
-                    $rcvPicData0 = $tgtfilename;
-                }
-                else if($no==1)
-                {
-                    $rcvPicData1 = $tgtfilename;
-                }
-                else if($no==2)
-                {
-                    $rcvPicData2 = $tgtfilename;
-                }
-            }
+            $tgtfilename = $rcvName;
             
+            // アップロードされたファイル件を処理
+            foreach ($_FILES["picdata"]["tmp_name"] as $no => $tmp_name) 
+            {
+                // アップロードされたファイルか検査
+                if(is_uploaded_file($_FILES["picdata"]["tmp_name"][$no]))
+                {
+                    $tgtfilename='';
+                    $tgtfilename .= $rcvName;
+                    $tgtfilename .= '_';
+                    $tgtfilename .= $no;
+                    $tgtfilename .= '.jpg';
+                    move_uploaded_file($_FILES["picdata"]["tmp_name"][$no], "uploads/" . $tgtfilename);
+
+                    if($no==0)
+                    {
+                        $rcvPicData0 = $tgtfilename;
+                    }
+                    else if($no==1)
+                    {
+                        $rcvPicData1 = $tgtfilename;
+                    }
+                    else if($no==2)
+                    {
+                        $rcvPicData2 = $tgtfilename;
+                    }
+                }
+                
+            }
         }
+
+        $personaldata = new PersonalData();
+        $personaldata->setName($rcvName);
+        $personaldata->setAge($rcvAge);
+        $personaldata->setBirthday($rcvBirthday);
+        $personaldata->setBirthplace($rcvBirthPlace);
+        $personaldata->setBloodtype($rcvBloodType);
+        $personaldata->setCategory($rcvCategory);
+        $personaldata->setHeight($rcvHeight);
+        $personaldata->setNotices($rcvNotices);
+        $personaldata->setPicdata0($rcvPicData0);
+        $personaldata->setPicdata1($rcvPicData1);
+        $personaldata->setPicdata2($rcvPicData2);
+        $personaldata->save();
     }
-
-    $personaldata = new PersonalData();
-    $personaldata->setName($rcvName);
-    $personaldata->setAge($rcvAge);
-    $personaldata->setBirthday($rcvBirthday);
-    $personaldata->setBirthplace($rcvBirthPlace);
-    $personaldata->setBloodtype($rcvBloodType);
-    $personaldata->setCategory($rcvCategory);
-    $personaldata->setHeight($rcvHeight);
-    $personaldata->setNotices($rcvNotices);
-    $personaldata->setPicdata0($rcvPicData0);
-    $personaldata->setPicdata1($rcvPicData1);
-    $personaldata->setPicdata2($rcvPicData2);
-    $personaldata->save();
-
 
 }
 
@@ -97,15 +101,24 @@ if(!empty($_POST['womanname']))
             }
         }
     </style>
-    <title>美女登録画面</title>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <title>新規登録画面</title>
 </head>
 
 <body>
     <div style="padding-top: 50px;">
     <?php include 'header.php';?>
     <main>
+        <?php if($ret){
+            print '<div class="alert alert-warning alert-dismissible fade show" role="alert">';
+            print '<p class="text-center"><strong>登録エラー</strong>'.$rcvName.'既に存在している名前です</p>';
+            print '<button type="button" class="close" data-dismiss="alert" aria-label="Close">';
+            print '<span aria-hidden="true">&times;</span>';
+            print '</button>';
+            print '</div>';
+        } ?>
         <div class="container">
-            <form class="mt-3 pb-3" action="new.php" enctype="multipart/form-data" method="post">
+            <form class="mt-3 pb-3" action="new.php" enctype="multipart/form-data" method="post" id="newform">
                 <div class="form-group row">
                     <label for="name" class="col-sm-3 col-form-label">名前</label>
                     <div class="col-sm-9">
@@ -276,7 +289,16 @@ if(!empty($_POST['womanname']))
         </div>
     </main>
     </div>
+    <script type="text/javascript">
+        // jquery でSUBMIT処理
+        $('#newform').submit(function(){
+
+        }); 
+            return true;
+        });
+    </script>
     <?php include 'footer.php';?>
+
 </body>
 
 </html>

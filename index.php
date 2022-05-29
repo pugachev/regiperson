@@ -73,45 +73,7 @@
                 </div>
             </div>
         </div>
-        <div class="card-deck m-3">
-            <div class="card">
-                <a href="detail.php">
-                    <img src="img/Youko_01.jpg" class="card-img-top" alt="...">
-                </a>
-                <div class="card-body">
-                    <h3 class="card-title h4"><a href="detail.html" class="text-dark">暢子</a></h3>
-                    <h6 class="card-subtitle text-secondary">ヨウコ</h6>
-                </div>
-            </div>
-            <div class="card">
-                <a href="detail.php">
-                    <img src="img/Miu_SHIOTA_01.jpg" class="card-img-top" alt="...">
-                </a>
-                <div class="card-body">
-                    <h3 class="card-title h4"><a href="detail.html" class="text-dark">塩田みう</a></h3>
-                    <h6 class="card-subtitle text-secondary">シオタミウ</h6>
-                </div>
-            </div>
-            <div class="card">
-                <a href="detail.php">
-                    <img src="img/Yuusei_01.jpg" class="card-img-top" alt="...">
-                </a>
-                <div class="card-body">
-                    <h3 class="card-title h4"><a href="detail.html" class="text-dark">ゆうせい</a></h3>
-                    <h6 class="card-subtitle text-secondary">ユウセイ</h6>
-                </div>
-            </div>
-            <div class="card">
-                <a href="detail.php">
-                    <img src="img/Serina_KAWAKO_01.jpg" class="card-img-top" alt="...">
-                </a>
-                <div class="card-body">
-                    <h3 class="card-title h4"><a href="detail.html" class="text-dark">川子芹那</a></h3>
-                    <h6 class="card-subtitle text-secondary">カワコセリナ</h6>
-                </div>
-            </div>
-        </div>
-
+        
         <nav class="m-4">
             <ul class="pagination d-flex justify-content-center align-items-center">
                 <li class="page-item disabled">

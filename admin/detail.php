@@ -1,4 +1,15 @@
 <?php
+include '../lib/connect.php';
+include '../lib/queryPersonalData.php';
+
+$result="";
+//他画面から遷移してきた場合
+if(!empty($_GET['id']))
+{
+    $personaldata = new QueryPersonalData();
+    $result = $personaldata->getDatum($_GET['id']);
+}
+
 
 
 ?>
@@ -21,7 +32,7 @@
             }
         }
     </style>
-    <title>ずんだ芸能</title>
+    <title>詳細画面</title>
 </head>
 <body>
     <div style="padding-top: 50px;" class="mb-5">
@@ -30,35 +41,35 @@
                 <div class="container pb-4 mt-3">
                     <dl class=" row">
                         <dt class="col-sm-3">名前</dt>
-                        <dd class="col-sm-9">相場詩織</dd>
+                        <dd class="col-sm-9"><?php echo $result->getName(); ?></dd>
                         <dt class="col-sm-3">年齢</dt>
-                        <dd class="col-sm-9">30</dd>
+                        <dd class="col-sm-9"><?php echo $result->getAge(); ?></dd>
                         <dt class="col-sm-3">分類</dt>
-                        <dd class="col-sm-9">フリー</dd>
+                        <dd class="col-sm-9"><?php echo $result->getCategory(); ?></dd>
                         <dt class="col-sm-3">生年月日</dt>
-                        <dd class="col-sm-9">1984/4/20</dd>
+                        <dd class="col-sm-9"><?php echo $result->getBirthday(); ?></dd>
                         <dt class="col-sm-3">血液型</dt>
-                        <dd class="col-sm-9">A型</dd>
+                        <dd class="col-sm-9"><?php echo $result->getBloodtype(); ?></dd>
                         <dt class="col-sm-3">身長</dt>
-                        <dd class="col-sm-9">171cm</dd>
+                        <dd class="col-sm-9"><?php echo $result->getHeight(); ?></dd>
                         <dt class="col-sm-3">出身地</dt>
-                        <dd class="col-sm-9">秋田県</dd>
+                        <dd class="col-sm-9"><?php echo $result->getBirthplace(); ?></dd>
                         <dt class="col-sm-3">特記事項</dt>
-                        <dd class="col-sm-9">秋田の巨人</dd>
+                        <dd class="col-sm-9"><?php echo $result->getNotices(); ?></dd>
                     </dl>
                     <div class="row my-2">
                         <div class="col-sm-12">
-                            <img src="../img/Tatsuya_OHKAWA_01.jpg" alt="" class="img-fluid img-thumbnail">
+                            <img src="uploads/<?php echo $result->getPicdata0(); ?>" alt="" class="img-fluid img-thumbnail">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <img src="../img/Tatsuya_OHKAWA_02.jpg" alt="" class="img-fluid img-thumbnail">
+                            <img src="uploads/<?php echo $result->getPicdata1(); ?>" alt="" class="img-fluid img-thumbnail">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
-                            <img src="../img/Tatsuya_OHKAWA_03.jpg" alt="" class="img-fluid img-thumbnail">
+                            <img src="uploads/<?php echo $result->getPicdata2(); ?>" alt="" class="img-fluid img-thumbnail">
                         </div>
                     </div>
                 </div>

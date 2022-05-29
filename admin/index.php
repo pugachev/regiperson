@@ -52,10 +52,10 @@ $results = $qpd->getAllData();
                                     {
                                         print '<tr>';
                                         print '<th>'.$key.'</th>';
-                                        print '<td><a href="detail.php">'.$result->getName().'</a></td>';
+                                        print '<td><a href="detail.php?id='.$result->getId().'">'.$result->getName().'</a></td>';
                                         print '<td>'.$result->getAge().'</td>';
                                         print '<td>'.$result->getCategory().'</td>';
-                                        print '<td><a href="edit.php"'.aaa.'class="btn btn-primary btn-xs">編集</a></td>';
+                                        print '<td><a href="edit.php?id='.$result->getId().'" class="btn btn-primary btn-xs">編集</a></td>';
                                         print '<td><a href="" class="btn btn-primary btn-xs">削除</a></td>';
                                         print '</tr>';
                                     }
