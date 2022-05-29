@@ -1,5 +1,13 @@
 <?php
+include __DIR__.'/lib/connect.php';
+include __DIR__.'/lib/queryPersonalData.php';
 
+if(!empty($_GET['id']))
+{
+    $personaldata = new QueryPersonalData();
+    $result = $personaldata->getDatum($_GET['id']);
+
+}
 
 ?>
 <!doctype html>
@@ -26,9 +34,9 @@
             <div class="row no-gutters">
                 <div class="col-md-3">
                     <div class="container ">
-                        <h3 class="text-muted text-center">男優</h3>
-                        <h3 class="text-center">大川竜弥</h3>
-                        <p class="lead text-center">オオカワタツヤ</p>
+                        <h3 class="text-muted text-center"><?php echo $result->getCategory(); ?></h3>
+                        <h3 class="text-center"><?php echo $result->getName(); ?></h3>
+                        <p class="lead text-center"><?php echo $result->getAge(); ?></p>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -40,13 +48,13 @@
                         </ol>
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="img/Tatsuya_OHKAWA_01.jpg" class="img-fluid" alt="First slide">
+                                <img src="admin/uploads/<?php echo $result->getPicdata0(); ?>" class="img-fluid" alt="First slide">
                             </div>
                             <div class="carousel-item">
-                                <img src="img/Tatsuya_OHKAWA_02.jpg" class="img-fluid" alt="Second slide">
+                                <img src="admin/uploads/<?php echo $result->getPicdata1(); ?>" class="img-fluid" alt="Second slide">
                             </div>
                             <div class="carousel-item">
-                                <img src="img/Tatsuya_OHKAWA_03.jpg" class="img-fluid" alt="Third slide">
+                                <img src="admin/uploads/<?php echo $result->getPicdata2(); ?>" class="img-fluid" alt="Third slide">
                             </div>
                         </div>
                         <a class="carousel-control-prev" href="#foo" data-slide="prev">
@@ -63,24 +71,18 @@
 
     <div class="container pb-4  ">
         <dl class="row d-flex justify-content-center">
-            <dt class="col-md-3">芸名</dt>
-            <dd class="col-md-9">大川竜弥</dd>
-            <dt class="col-md-3">芸名カナ</dt>
-            <dd class="col-md-9">オオカワタツヤ</dd>
-            <dt class="col-md-3">ジャンル</dt>
-            <dd class="col-md-9">男優</dd>
+            <dt class="col-md-3">名前</dt>
+            <dd class="col-md-9"><?php echo $result->getName(); ?></dd>
+            <dt class="col-md-3">分類</dt>
+            <dd class="col-md-9"><?php echo $result->getCategory(); ?></dd>
             <dt class="col-md-3">生年月日</dt>
-            <dd class="col-md-9">1984/4/20</dd>
-            <dt class="col-md-3">血液型</dt>
-            <dd class="col-md-9">A型</dd>
+            <dd class="col-md-9"><?php echo $result->getBirthday(); ?></dd>
             <dt class="col-md-3">身長</dt>
-            <dd class="col-md-9">173cm</dd>
+            <dd class="col-md-9"><?php echo $result->getHeight(); ?></dd>
             <dt class="col-md-3">出身地</dt>
-            <dd class="col-md-9">岐阜県</dd>
-            <dt class="col-md-3">性別</dt>
-            <dd class="col-md-9">男性</dd>
-            <dt class="col-md-3">特技</dt>
-            <dd class="col-md-9">落語</dd>
+            <dd class="col-md-9"><?php echo $result->getBirthPlace(); ?></dd>
+            <dt class="col-md-3">特記事項</dt>
+            <dd class="col-md-9"><?php echo $result->getNotices(); ?></dd>
         </dl>
     </div>
 </main>

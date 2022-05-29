@@ -1,5 +1,5 @@
 <?php
-include '../lib/personaldata.php';
+include __DIR__.'/personaldata.php';
 
 class QueryPersonalData extends connect
 {

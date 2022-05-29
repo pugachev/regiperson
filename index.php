@@ -1,5 +1,20 @@
 <?php
+include __DIR__.'/lib/connect.php';
+include __DIR__.'/lib/queryPersonalData.php';
 
+$limit=8;
+$qpd=new QueryPersonalData();
+$currentpage ="";
+
+if(!empty($_GET['page']))
+{
+    $results = $qpd->getAllData($_GET['page']);
+    $currentpage=$_GET['page'];
+}
+else
+{
+    $results = $qpd->getAllData(1);
+}
 
 ?>
 <!doctype html>
@@ -36,44 +51,39 @@
     </div>
     <div class="container-fluid">
         <div class="card-deck m-3">
-            <div class="card">
-                <a href="detail.php">
-                    <img src="img/Tatsuya_OHKAWA_01.jpg" class="card-img-top" alt="...">
-                </a>
-                <div class="card-body">
-                    <h3 class="card-title h4"><a href="detail.html" class="text-dark">大川竜弥</a></h3>
-                    <h6 class="card-subtitle text-secondary">オオカワタツヤ</h6>
-                </div>
-            </div>
-            <div class="card">
-                <a href="detail.php">
-                    <img src="img/Yuka_KAWAMURA_01.jpg" class="card-img-top" alt="...">
-                </a>
-                <div class="card-body">
-                    <h3 class="card-title h4"><a href="detail.html" class="text-dark">河村友歌</a></h3>
-                    <h6 class="card-subtitle text-secondary">カワムラユカ</h6>
-                </div>
-            </div>
-            <div class="card">
-                <a href="detail.php">
-                    <img src="img/Saya_AKENE_01.jpg" class="card-img-top" alt="...">
-                </a>
-                <div class="card-body">
-                    <h3 class="card-title h4"><a href="detail.html" class="text-dark">茜さや</a></h3>
-                    <h6 class="card-subtitle text-secondary">アカネサヤ</h6>
-                </div>
-            </div>
-            <div class="card">
-                <a href="detail.php">
-                    <img src="img/Hayato_DANDA_01.jpg" class="card-img-top" alt="...">
-                </a>
-                <div class="card-body">
-                    <h3 class="card-title h4"><a href="detail.html" class="text-dark">段田隼人</a></h3>
-                    <h6 class="card-subtitle text-secondary">ダンダハヤト</h6>
-                </div>
-            </div>
+            <?php if(!empty($results["people"]))
+            { 
+                for($i=0;$i<4;$i++)
+                {
+                    print '<div class="card">';
+                    print '<a href="detail.php?id='.$results["people"][$i]->getId().'">';
+                    print '<img src="admin/uploads/'.$results["people"][$i]->getPicdata0().'" class="card-img-top" alt="...">';
+                    print '</a>';
+                    print '<div class="card-body">';
+                    print '<h3 class="card-title h4"><a href="detail.html" class="text-dark">'.$results["people"][$i]->getName().'</a></h3>';
+                    print '<h6 class="card-subtitle text-secondary">'.$results["people"][$i]->getAge().'</h6>';
+                    print '</div>';
+                    print '</div>';
+                }
+            }?>
         </div>
-        
+        <div class="card-deck m-3">
+            <?php if(!empty($results["people"]))
+            { 
+                for($i=4;$i<8;$i++)
+                {
+                    print '<div class="card">';
+                    print '<a href="detail.php?id='.$results["people"][$i]->getId().'">';
+                    print '<img src="admin/uploads/'.$results["people"][$i]->getPicdata0().'" class="card-img-top" alt="...">';
+                    print '</a>';
+                    print '<div class="card-body">';
+                    print '<h3 class="card-title h4"><a href="detail.html" class="text-dark">'.$results["people"][$i]->getName().'</a></h3>';
+                    print '<h6 class="card-subtitle text-secondary">'.$results["people"][$i]->getAge().'</h6>';
+                    print '</div>';
+                    print '</div>';
+                }
+            }?>
+        </div>
         <nav class="m-4">
             <ul class="pagination d-flex justify-content-center align-items-center">
                 <li class="page-item disabled">
