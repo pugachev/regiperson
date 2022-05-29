@@ -78,11 +78,13 @@ class QueryPersonalData extends connect
     public function getAllData($page = 1, $limit = 8)
     {
         //画面に渡すデータ連携
-        $pager = array('totalcnt' => null, 'articles' => null);
+        $pager = array('totalcnt' => null, 'persons' => null);
         //ページ番号
         $start = ($page - 1) * $limit; 
         //総記事数
         $totalcnt = "";
+        //一度に取得するデータ数
+        $limit=8;
         try
         {
             //現在の総記事数を取得する
@@ -91,11 +93,15 @@ class QueryPersonalData extends connect
             $totalcnt= $stmt->fetch(PDO::FETCH_COLUMN);
 
             //現在登録している全ての個人データを取得する
-            $stmt = $this->dbh->prepare("SELECT  * FROM personaldata");
+            $stmt = $this->dbh->prepare("SELECT  * FROM personaldata LIMIT :start, :limit");
+            $stmt->bindParam(':start', $start, PDO::PARAM_INT);
+            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
             $stmt->execute();
             $data = $this->setAllData($stmt->fetchAll(PDO::FETCH_ASSOC));
 
-            //一般用トップ画面に渡すための
+            //一般用トップ画面に渡すためのデータを格納する
+            $pager['totalcnt'] = $totalcnt;
+            $pager['people'] = $data;
     
         }
         catch(Exception $ex)
@@ -103,7 +109,10 @@ class QueryPersonalData extends connect
             return "DB:Error";
         }
 
-        return $data;
+        // print_r($pager);
+        // die();
+
+        return $pager;
     }
     // public function getAllData()
     // {
