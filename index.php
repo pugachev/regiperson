@@ -4,7 +4,7 @@ include __DIR__.'/lib/queryPersonalData.php';
 
 $limit=8;
 $qpd=new QueryPersonalData();
-$currentpage ="";
+$currentpage ="1";
 
 if(!empty($_GET['page']))
 {
@@ -55,6 +55,9 @@ else
             { 
                 for($i=0;$i<4;$i++)
                 {
+                    if(empty($results["people"][$i])){
+                        continue;
+                    }
                     print '<div class="card">';
                     print '<a href="detail.php?id='.$results["people"][$i]->getId().'">';
                     print '<img src="admin/uploads/'.$results["people"][$i]->getPicdata0().'" class="card-img-top" alt="...">';
@@ -72,6 +75,9 @@ else
             { 
                 for($i=4;$i<8;$i++)
                 {
+                    if(empty($results["people"][$i])){
+                        continue;
+                    }
                     print '<div class="card">';
                     print '<a href="detail.php?id='.$results["people"][$i]->getId().'">';
                     print '<img src="admin/uploads/'.$results["people"][$i]->getPicdata0().'" class="card-img-top" alt="...">';
@@ -84,21 +90,26 @@ else
                 }
             }?>
         </div>
-        <nav class="m-4">
-            <ul class="pagination d-flex justify-content-center align-items-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">前</a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">2</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">次</a>
-                </li>
-            </ul>
-        </nav>
+        <?php if(!empty($results["totalcnt"]) && intval($results["totalcnt"])>8)
+        { 
+            print '<nav class="mt-1 mb-4">';
+            print '<ul class="pagination d-flex justify-content-center">';
+            for ($i = 1; $i <= ceil(intval($results["totalcnt"]) / $limit); $i++)
+            {
+                if($i==$currentpage)
+                {
+                    print '<li class="page-item active"><a class="page-link" href="index.php?page='.$i.'">'.$i.'</a></li>';
+                }
+                else
+                {
+
+                    print '<li class="page-item"><a class="page-link" href="index.php?page='.$i.'">'.$i.'</a></li>';
+                }
+                
+            }
+            print '</ul>';
+            print '</nav>';
+        } ?>
     </div>
 </main>
 

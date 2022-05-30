@@ -1,6 +1,6 @@
 <header>
 <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-        <a class="navbar-brand" href="index.php"><img src="charzaku.png" width="30" height="30" alt=""></a>
+        <a class="navbar-brand" href="index.php"><img src="favicon.ico" width="30" height="30" alt=""></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
             <span class="navbar-toggler-icon"></span>
         </button>

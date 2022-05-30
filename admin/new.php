@@ -117,24 +117,28 @@ if(!empty($_POST['womanname']))
             print '</button>';
             print '</div>';
         } ?>
+        <div class="errorMsg"></div>
         <div class="container">
             <form class="mt-3 pb-3" action="new.php" enctype="multipart/form-data" method="post" id="newform">
                 <div class="form-group row">
-                    <label for="name" class="col-sm-3 col-form-label">名前</label>
+                    <label for="womanname" class="col-sm-3 col-form-label">名前</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="name" placeholder="名前" value="" name="womanname">
+                        <input type="text" class="form-control" id="womanname" placeholder="名前" value="" name="womanname">
+                        <div class="err_text" id="err_namebox"></div>
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="name" class="col-sm-3 col-form-label">年齢</label>
+                    <label for="age" class="col-sm-3 col-form-label">年齢</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="name" placeholder="年齢" value="" name="age">
+                        <input type="text" class="form-control" id="age" placeholder="年齢" value="" name="age">
+                        <div class="err_text" id="err_agebox"></div>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label for="dateOfBirth" class="col-sm-3 col-form-label">生年月日</label>
                     <div class="col-sm-9">
                         <input type="date" class="form-control" id="dateOfBirth" placeholder="yyyy-mm-dd" value="" name="birthday">
+                        <div class="err_text" id="err_birthdaybox"></div>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -263,7 +267,8 @@ if(!empty($_POST['womanname']))
                 <div class="form-group row">
                     <label for="height" class="col-sm-3 col-form-label">身長（cm）</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="tgtheight" placeholder="165" value="" name="height">
+                        <input type="text" class="form-control" id="height" placeholder="165" value="" name="height">
+                        <div class="err_text" id="err_heghtbox"></div>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -290,12 +295,44 @@ if(!empty($_POST['womanname']))
     </main>
     </div>
     <script type="text/javascript">
-        // jquery でSUBMIT処理
-        $('#newform').submit(function(){
 
-        }); 
-            return true;
-        });
+            //名前チェック
+            $("#womanname").bind("blur", function() {
+                $("#err_namebox p").remove();
+                if($('input[name="womanname"]').val()==""){
+                    $("#err_namebox").append("<p style='font-size:24px;color:red;'>名前を入力してください。</p>");
+                    return false;
+                }
+            });
+
+            //年齢チェック
+            $("#age").bind("blur", function() {
+                $("#err_agebox p").remove();
+                var tmpage = $('input[name="age"]').val();
+                if(tmpage=="" || !$.isNumeric(tmpage)){
+                    $("#err_agebox").append("<p style='font-size:24px;color:red;'>年齢を入力してください。</p>");
+                    return false;
+                }
+            });
+
+            //生年月日チェック
+            $("#birthday").bind("blur", function() {
+                $("#err_birthdaybox p").remove();
+                if($('input[type="date"]').val()==""){
+                    $("#err_birthdaybox").append("<p style='font-size:24px;color:red;'>生年月日を入力してください。</p>");
+                    return false;
+                }
+            });
+
+            //身長ボタンチェック
+            $("#height").bind("blur", function() {
+                $("#err_heghtbox p").remove();
+                if($('input[name="height"]').val()==""){
+                    $("#err_heghtbox").append("<p style='font-size:24px;color:red;'>身長を入力してください。</p>");
+                    return false;
+                }
+            });
+
     </script>
     <?php include 'footer.php';?>
 

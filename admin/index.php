@@ -4,7 +4,7 @@ include '../lib/queryPersonalData.php';
 
 $limit=8;
 $qpd=new QueryPersonalData();
-$currentpage ="";
+$currentpage ="1";
 
 if(!empty($_GET['page']))
 {
