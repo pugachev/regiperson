@@ -106,6 +106,7 @@ if(!empty($_POST['id']))
             }
         }
     </style>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <title>編集画面</title>
 </head>
 
@@ -114,7 +115,7 @@ if(!empty($_POST['id']))
     <?php include 'header.php';?>
         <!-- <main> -->
         <div class="container">
-            <form class="mt-3 pb-3" action="edit.php" enctype="multipart/form-data" method="post">
+            <form class="mt-3 pb-3" action="edit.php" enctype="multipart/form-data" method="post" id="editForm">
                 <div class="form-group row">
                     <label for="name" class="col-sm-3 col-form-label">名前</label>
                     <div class="col-sm-9">
@@ -122,9 +123,10 @@ if(!empty($_POST['id']))
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="name" class="col-sm-3 col-form-label">年齢</label>
+                    <label for="age" class="col-sm-3 col-form-label">年齢</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="name" placeholder="年齢" value="<?php echo $result->getAge(); ?>" name="age">
+                        <input type="text" class="form-control" id="age" placeholder="年齢" value="<?php echo $result->getAge(); ?>" name="age">
+                        <div class="err_text" id="err_agebox"></div>
                     </div>
                 </div>
                 <fieldset class="form-group">
@@ -210,6 +212,7 @@ if(!empty($_POST['id']))
                     <label for="height" class="col-sm-3 col-form-label">身長（cm）</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control" id="height" placeholder="165" value="<?php echo $result->getHeight(); ?>" name="height">
+                        <div class="err_text" id="err_heghtbox"></div>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -323,12 +326,46 @@ if(!empty($_POST['id']))
                 <div class="mb-2  d-flex justify-content-center align-items-center">
                     <input type="hidden" value="<?php echo $result->getId(); ?>" name="id">
                     <input type="hidden" value="<?php echo $result->getName(); ?>"  name="womanname">
-                    <input type="submit" class="btn btn-primary" value="更新登録"></input>
+                    <input type="button" class="btn btn-primary" value="更新登録"  id="updateButton"></input>
                 </div>
             </form>
         </div>
     </div>
 <!-- </main> -->
+<script type="text/javascript">
+    $("#updateButton").on("click",function(){
+        if(!formCheck())
+        {
+            return false;
+        }
+        else
+        {
+            $("#editForm").submit();
+        }
+
+    });
+
+    function formCheck(){
+        var ret=true;
+        //年齢チェック(入力と数値チェック)
+        $("#err_agebox p").remove();
+        var tmpage = $('input[name="age"]').val();
+        if(tmpage=="" || !$.isNumeric(tmpage))
+        {
+            $("#err_agebox").append("<p style='font-size:24px;color:red;'>年齢を入力してください。</p>");
+            ret = false;
+        }
+        //身長チェック(入力と数値チェック)
+        $("#err_heghtbox p").remove();
+        var tmpheight = $('input[name="height"]').val();
+        if(tmpheight=="" || !$.isNumeric(tmpheight))
+        {
+            $("#err_heghtbox").append("<p style='font-size:24px;color:red;'>身長を入力してください。</p>");
+            ret = false;
+        }
+        return ret;
+    }
+</script>
 
 <?php include 'footer.php';?>
 </body>
